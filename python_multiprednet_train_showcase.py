@@ -12,6 +12,41 @@ import matplotlib.pyplot as plt
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 
+### Data Processing Functions
+
+def load_mat_data(data_path, shuffle=True):
+
+    img = img_as_float(np.array(sio.loadmat(data_path + '/images.mat')['images'].tolist())[0]) #load from matlab and normalise
+    img = img.reshape(img.shape[0], 10800) # flatten
+    theta = sio.loadmat(data_path + '/theta.mat')['theta']
+    xy = sio.loadmat(data_path + '/xy.mat')['xy']
+
+    # reshape and combine whisker data
+    theta = np.reshape(theta, [-1, theta.shape[-1]]).T
+    xy = np.reshape(xy, [-1, xy.shape[-1]]).T
+    tactile_data = preprocess_tactile_data(np.concatenate([theta, xy], axis=1))
+
+    if shuffle:
+        # shuffle sequence of data but maintain visual-tactile alignment
+        img, tactile_data = shuffle_in_sync(img, tactile_data)
+
+    return img, tactile_data
+
+def preprocess_tactile_data(tactile_data):
+    scaler = MinMaxScaler(copy=False)
+    scaler.fit(tactile_data)
+    scaler.transform(tactile_data)
+
+    return tactile_data
+
+def shuffle_in_sync(visual_data, tactile_data):
+    assert visual_data.shape[0] == tactile_data.shape[0]
+
+    shared_indices = permutation(visual_data.shape[0])
+    shuffled_visual, shuffled_tactical = visual_data[shared_indices], tactile_data[shared_indices]
+
+    return shuffled_visual, shuffled_tactical
+
 ### User-defined Parameters ###
 
 ## Note: if you change any of these, ensure the corresponding value (if applicable) is changed in the python_multiprednet_gen_reps_showcase.py file
@@ -32,6 +67,9 @@ n_epoch = 200                               # Number of training epochs to gener
                                             
 shuffle_data = False                        # Do you want to shuffle the training data? Default is False
 
+# Load the data from .mat files
+
+visual_data, tactile_data = load_mat_data(data_path, shuffle_data)
 
 ### Model Hyperparameters ###
 
@@ -65,40 +103,6 @@ reg_msi_filters = [0.0, 0.0]                # filters for regularised error, dis
 lr_m1_filters = [0.0001, 0.0001]            # learning rate for the inference process; modality 1
 lr_m2_filters = [0.001, 0.001]              # learning rate for the inference process; modality 2
 lr_msi_filters = [0.0001, 0.0001]           # learning rate for the inference process; multi-modal integration
-
-def load_mat_data(data_path, shuffle=True):
-
-    img = img_as_float(np.array(sio.loadmat(data_path + '/images.mat')['images'].tolist())[0]) #load from matlab and normalise
-    img = img.reshape(img.shape[0], 10800) # flatten
-    theta = sio.loadmat(data_path + '/theta.mat')['theta']
-    xy = sio.loadmat(data_path + '/xy.mat')['xy']
-
-    # reshape and combine whisker data
-    theta = np.reshape(theta, [-1, theta.shape[-1]]).T
-    xy = np.reshape(xy, [-1, xy.shape[-1]]).T
-    tactile_data = preprocess_tactile_data(np.concatenate([theta, xy], axis=1))
-
-    if shuffle:
-        # shuffle sequence of data but maintain visual-tactile alignment
-        img, tactile_data = shuffle_in_sync(img, tactile_data)
-
-    return img, tactile_data
-
-
-def preprocess_tactile_data(tactile_data):
-    scaler = MinMaxScaler(copy=False)
-    scaler.fit(tactile_data)
-    scaler.transform(tactile_data)
-
-    return tactile_data
-
-def shuffle_in_sync(visual_data, tactile_data):
-    assert visual_data.shape[0] == tactile_data.shape[0]
-
-    shared_indices = permutation(visual_data.shape[0])
-    shuffled_visual, shuffled_tactical = visual_data[shared_indices], tactile_data[shared_indices]
-
-    return shuffled_visual, shuffled_tactical
 
 class Network:
     def __init__(self, n_sample, minibatch_sz, m1_inp_shape, m2_inp_shape, m1_layers, m2_layers, msi_layers, m1_cause_init,
@@ -329,9 +333,6 @@ class Network:
 def train():
     tf.compat.v1.reset_default_graph()
 
-    # load direct from matlab objects
-    visual_data, tactile_data = load_mat_data(data_path, shuffle_data)
-
     completed_epoch = 0
 
     net = Network(n_sample, minibatch_sz, m1_inp_shape, m2_inp_shape, m1_layers, m2_layers, msi_layers, m1_cause_init,
@@ -449,89 +450,3 @@ if __name__ == '__main__':
 
     print ('Time taken: %f' % ((endtime - starttime) / 3600))
 
-
-
-#def preprocess_images(preproc_setting, filename):
-#    final_image_sz = preproc_setting['final_image_sz'] # (45 x 80)
-#
-#    # read images as 32 bit floats
-#    img = cv2.imread(filename).astype(np.float32)
-#
-#    if preproc_setting['gray_scale']:
-#        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-#
-#    if preproc_setting['resize_image']:
-#        img = cv2.resize(img, (final_image_sz[1], final_image_sz[0]))
-#
-#    if preproc_setting['norm_image']:
-#        img = img / 255
-#
-#    if preproc_setting['flatten']:
-#        img = np.ravel(img)
-#
-#    return img
-#
-#def convert_to_npy(data_path, image_proc_setting, num_images):
-#    img_arr = np.zeros([num_images, 10800]) # to fit size of specific dataset for training 200521
-#    cam1_images_n = np.zeros([0], dtype=np.int)
-#    #theta_meas = np.zeros([4, 6, 0])
-#    #xy_meas = np.zeros([2, 4, 6, 0])
-#    theta = np.zeros([4, 6, 0])
-#    xy = np.zeros([2, 4, 6, 0])
-#    cur_img = 0
-#
-#    print("Converting CSV to NPY...")
-#    for dp in data_path:
-#        for dir in os.listdir(dp):
-#            print(dp + '/' + dir)
-#            for f in os.listdir(dp + '/' + dir):
-#                if (imghdr.what(dp + '/' + dir + '/' + f) == 'png') and ('cam1' in dp + '/' + dir + '/' + f):
-#                    img_arr[cur_img] = preprocess_images(image_proc_setting, dp + '/' + dir + '/' + f)
-#                    cur_img = cur_img + 1
-#            cam1_images_n = np.genfromtxt(dp + '/' + dir + '/cam1_n', delimiter=',', dtype=np.int)
-#            #cam1_images_n = np.concatenate([cam1_images_n, x])
-#            print("loaded images")
-#
-#            theta_meas = np.reshape(np.genfromtxt(dp + '/' + dir + '/theta_meas', delimiter=','), [4, 6, -1])
-#            #theta_meas = np.concatenate([theta_meas, x], axis=2)
-#            print("loaded theta_meas")
-#
-#            xy_meas = np.reshape(np.genfromtxt(dp + '/' + dir + '/xy_meas_clean', delimiter=','), [2, 4, 6, -1])
-#            #xy_meas = np.concatenate([xy_meas, x], axis=3)
-#            print("loaded xy_meas_clean")
-#
-#
-#            sample_idx = cam1_images_n * 10
-#            theta = np.concatenate([theta, theta_meas[:, :, sample_idx]], axis=2)
-#            print(np.shape(theta))
-#
-#            xy = np.concatenate([xy, xy_meas[:, :, :, sample_idx]], axis=3)
-#            print(np.shape(xy))
-#    print(" done! ")
-#    # create the save path if it does not exist
-#    if not os.path.exists(dp + '_npy'):
-#        os.makedirs(dp + '_npy')
-#
-#    # save loaded data
-#    np.save(dp + '_npy/images', img_arr)
-#    #np.save(dp + '_npy/theta_meas', theta_meas)
-#    #np.save(dp + '_npy/xy_meas', xy_meas)
-#    np.save(dp + '_npy/theta', theta)
-#    np.save(dp + '_npy/xy', xy)
-#
-#    print('saved to: ' + dp + '_npy')
-#
-#    #return img_arr, theta, xy
-#
-#
-#def load_npy_data(data_path):
-#    img = np.load(data_path + '_npy/images.npy')
-#    theta = np.load(data_path + '_npy/theta.npy')
-#    xy = np.load(data_path + '_npy/xy.npy')
-#
-#    # reshape and combine whisker data
-#    theta = np.reshape(theta, [-1, theta.shape[-1]]).T
-#    xy = np.reshape(xy, [-1, xy.shape[-1]]).T
-#    tactile_data = preprocess_tactile_data(np.concatenate([theta, xy], axis=1))
-#
-#    return img, tactile_data#
