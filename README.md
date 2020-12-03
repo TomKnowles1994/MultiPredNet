@@ -39,9 +39,9 @@ NB: If your data has already been unpacked from its ROSbag, then ROS nor the ROS
 
 Within `python_multiprednet_train_showcase.py`:
 
-- [Line 26]: assign your training .mat data file location to the `data_path` variable
-- [Line 28]: assign a suitable save path to the `save_path` variable; it is recommended to create a new, empty folder for this purpose
-- [Line 29]: assign a suitable load path to the `load_path` variable; this can be the same as your `save_path`
+- [Line 61]: assign your training .mat data file location to the `data_path` variable
+- [Line 63]: assign a suitable save path to the `save_path` variable; it is recommended to create a new, empty folder for this purpose
+- [Line 64]: assign a suitable load path to the `load_path` variable; this can be the same as your `save_path`
 
 ### MultiPredNet Inference Script
 
