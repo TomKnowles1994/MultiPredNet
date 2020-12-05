@@ -28,42 +28,13 @@ NB: If your data has already been unpacked from its ROSbag, then ROS nor the ROS
 
 ## Configuration Steps:
 
-- Clone this repository
-- (If ROSbag is not unpacked) open Terminal and run `rosbag play <bagname.bag>` where <bagname> is the name of your generated ROSbag
-- (If ROSbag is not unpacked) open MATLAB and run the **todo.mat** script to interpret the ROSbag. Once this is done you will have several .mat files generated
-- Move your training and test data to a suitable folder
+After cloning this repository:
 
-- Alter the three scripts below by substitute the following paths with your own. These can be anywhere within your user directory:
+1) Extract data from ROSbag (if required)
+2) Alter the three Python scripts by substituting the placeholder paths with your own
+3) Run the scripts
 
-### MultiPredNet Training Script
-
-Within `python_multiprednet_train_showcase.py`:
-
-- [Line 61]: assign your training .mat data file location to the `data_path` variable
-- [Line 63]: assign a suitable save path to the `save_path` variable; it is recommended to create a new, empty folder for this purpose
-- [Line 64]: assign a suitable load path to the `load_path` variable; this can be the same as your `save_path`
-
-### MultiPredNet Inference Script
-
-Within `python_multiprednet_gen_reps_showcase.py`:
-
-- [Line 14]: assign trained model location to the `model_path` variable. This is like to be the same as `save_path` within the Training Script
-- [Line 15]: assign training data location to the `tr_data_path` variable
-- [Line 16]: assign test data location to the `ts_data_path` variable
-- [Line 17]: assign output location for representations to the `save_path` variable. This can be the same as `save_path` within the Training Script if you'd like, but this isn't essential
-
-### MultiPredNet Figure Script
-
-Within `matlab_multiprednet_figures_showcase.m`:
-
-- [Line 20 and 22]: pass test data location to the `load()` functions
-- [Lines 33, 35, 48, 50, 59 and 61]: pass output representations (from Inference Script's `save_path`) location to the `load()` functions
-
-### Finally
-
-- Save your changes to these files
-
-## Unpacking your ROSbag into .mat files (if required):
+## 1) ROSbag extraction (if required)
 
 Within MATLAB:
 
@@ -87,7 +58,37 @@ Finally, within MATLAB:
 
 7) Run `import_rosbag.m`. The script will find the revevant topics and output the corresponding MATLAB files.
 
-## Running the Experiment
+## 2) Python Script Alterations
+
+### MultiPredNet Training Script
+
+Within `python_multiprednet_train_showcase.py`:
+
+- [Line 61]: assign your training .mat data file location to the `data_path` variable. The folder must already exist.
+- [Line 63]: assign a suitable save path to the `save_path` variable; it is recommended to create a new, empty folder for this purpose
+- [Line 64]: assign a suitable load path to the `load_path` variable; this can be the same as your `save_path`
+
+### MultiPredNet Inference Script
+
+Within `python_multiprednet_gen_reps_showcase.py`:
+
+- [Line 14]: assign trained model location to the `model_path` variable. This is like to be the same as `save_path` within the Training Script
+- [Line 15]: assign training data location to the `tr_data_path` variable
+- [Line 16]: assign test data location to the `ts_data_path` variable
+- [Line 17]: assign output location for representations to the `save_path` variable. This can be the same as `save_path` within the Training Script if you'd like, but this isn't essential
+
+### MultiPredNet Figure Script
+
+Within `matlab_multiprednet_figures_showcase.m`:
+
+- [Line 20 and 22]: pass test data location to the `load()` functions
+- [Lines 33, 35, 48, 50, 59 and 61]: pass output representations (from Inference Script's `save_path`) location to the `load()` functions
+
+### Finally
+
+- Save your changes to these files
+
+### 3) Running the Experiment
 
 Within Terminal or a suitable IDE:
 
