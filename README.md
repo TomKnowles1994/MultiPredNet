@@ -63,6 +63,30 @@ Within `matlab_multiprednet_figures_showcase.m`:
 
 - Save your changes to these files
 
+## Unpacking your ROSbag into .mat files (if required):
+
+Within MATLAB:
+
+1) Add Whiskeye Head Theta custom message using the script provided **to be added**
+
+Within Terminal:
+
+2) `cd` into the whisker_capture folder.
+3) Run `roscore`. ROS startup will commence.
+
+Within MATLAB:
+
+4) Run `rosinit`. MATLAB will create a Python virtual environment and initialise a ROS node.
+
+Within a 2nd Terminal:
+
+5) `cd` to the directory containing your .bag file. Usually this will be named '1.bag'.
+6) Run `rosbag play 1.bag`. The console will begin running through the ROSbag history.
+
+Finally, within MATLAB:
+
+7) Run `import_rosbag.m`. The script will find the revevant topics and output the corresponding MATLAB files.
+
 ## Running the Experiment
 
 Within Terminal or a suitable IDE:
@@ -72,4 +96,4 @@ Within Terminal or a suitable IDE:
 
 Within MATLAB:
 
-1) Run `matlab_multiprednet_figures_showcase.m`. Figures will be generated showing the Representational Simularity Matrices. These can be compared to our results at **link**
+3) Run `matlab_multiprednet_figures_showcase.m`. Figures will be generated showing the Representational Simularity Matrices. These can be compared to our results at **link**
