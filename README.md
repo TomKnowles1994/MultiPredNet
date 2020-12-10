@@ -1,6 +1,6 @@
 # MultiPredNet
 
-A multimodal predictive coding implementation for place recognition.
+A multimodal predictive coding implementation for place recognition. Suitable datasets can be gathered from the Neurorobotics Platform and used to train the predictive coding network to generate suitable representations of the robot's environment. This can then be used in other tasks, such as navigation. Quality of the representations is determined by the Representational Similarity Matrix of the representation; a good learned representation should 
 
 ## Dependencies:
 
