@@ -7,6 +7,7 @@ A multimodal predictive coding implementation for place recognition. Suitable da
 - Python 3.5 or higher
 - Tensorflow 2.0 or higher
 - MATLAB 2020b with valid License
+- MATLAB Add-ons installed: Robotic Systems Toolbox and Signal Processing Toolbox
 - ROS (any version)
 
 ## Also required:
