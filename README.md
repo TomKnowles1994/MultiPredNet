@@ -98,6 +98,6 @@ Within Terminal or a suitable IDE:
 
 Within MATLAB:
 
-3) Run `matlab_multiprednet_figures_showcase.m`. Figures will be generated showing the Representational Simularity Matrices. These can be compared to our results at **link**
+3) Run `matlab_multiprednet_figures_showcase.m`. Figures will be generated showing the Representational Simularity Matrices. An example of the final output is shown below:
 
-<img src="https://github.com/TomKnowles1994/MultiPredNet/blob/main/examples/readme_RSM_example.png" width="300">
+<img src="https://github.com/TomKnowles1994/MultiPredNet/blob/main/examples/readme_RSM_example.png" width="600">
