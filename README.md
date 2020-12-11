@@ -97,10 +97,14 @@ Within Terminal or a suitable IDE:
 
 <img src="https://github.com/TomKnowles1994/MultiPredNet/blob/main/examples/readme_training_example.gif" width="600">
 
-Wait until console output stops
+   Wait until console output stops
 
 
-2) Run `python_multiprednet_gen_reps_showcase.py`. The inference process will begin. Wait until console output stops
+2) Run `python_multiprednet_gen_reps_showcase.py`. The inference process will begin.
+
+<img src="https://github.com/TomKnowles1994/MultiPredNet/blob/main/examples/readme_inference_example.gif" width="600">
+
+   Wait until console output stops
 
 Within MATLAB:
 
