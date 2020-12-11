@@ -11,10 +11,10 @@ tf.disable_v2_behavior()
 
 ## Note: if you change any of these, ensure the corresponding value (if applicable) is changed in the python_multiprednet_gen_reps_showcase.py file
                                                                     
-model_path = '/your/path/here'                                      # Path to saved model created by training script
-tr_data_path = '/your/path/here'                                    # Path to the training data
-ts_data_path = '/your/path/here'                                    # Path to the test data
-save_path = '/your/path/here'                                       # Folder to save representations and reconstructions
+model_path = '/your/path/here/'                                      # Folder of saved model created by training script
+tr_data_path = '/your/path/here/'                                    # Folder containing training data
+ts_data_path = '/your/path/here/'                                    # Folder containing test data
+save_path = '/your/path/here/'                                       # Folder to save representations and reconstructions
 
 avail_modality = 'both'                                             # Modalities made available to the network. Can be left as 'both' for full reconstructions.
                                                                     # Can be limited to 'visual' or 'tactile' to test the effects of sensor dropout
