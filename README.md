@@ -93,7 +93,13 @@ Within `matlab_multiprednet_figures_showcase.m`:
 
 Within Terminal or a suitable IDE:
 
-1) Run `python_multiprednet_train_showcase.py`. Tensorflow will start up and run the training code. Wait until console output stops
+1) Run `python_multiprednet_train_showcase.py`. Tensorflow will start up and run the training code. Console output should look as follows:
+
+<img src="https://github.com/TomKnowles1994/MultiPredNet/blob/main/examples/readme_training_example.gif" width="600">
+
+Wait until console output stops
+
+
 2) Run `python_multiprednet_gen_reps_showcase.py`. The inference process will begin. Wait until console output stops
 
 Within MATLAB:
