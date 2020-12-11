@@ -100,7 +100,7 @@ Within Terminal or a suitable IDE:
    Wait until console output stops
 
 
-2) Run `python_multiprednet_gen_reps_showcase.py`. The inference process will begin.
+2) Run `python_multiprednet_gen_reps_showcase.py`. The inference process will begin. Console output should look as follows:
 
 <img src="https://github.com/TomKnowles1994/MultiPredNet/blob/main/examples/readme_inference_example.gif" width="600">
 
