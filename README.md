@@ -37,27 +37,31 @@ After cloning this repository:
 
 ## 1) ROSbag extraction (if required)
 
-Within MATLAB:
+Within Terminal:
 
-1) Add Whiskeye Head Theta custom message using the script provided **to be added**
+1) Build a catkin workspace for this experiment
+2) Copy the `whiskeye_plugin` folder into the `/home/$USER/catkin_ws/src/matlab_msgs/` folder
+3) Run `catkin_make` in the top level of your catkin workspace (`catkin_ws`)
 
 Within Terminal:
 
-2) `cd` into the whisker_capture folder.
-3) Run `roscore`. ROS startup will commence.
+4) `cd` into the whisker_capture folder.
+5) Run `roscore`. ROS startup will commence.
 
 Within MATLAB:
 
-4) Run `rosinit`. MATLAB will create a Python virtual environment and initialise a ROS node.
+5) Run `rosinit`. MATLAB will create a Python virtual environment and initialise a ROS node.
+6) Run `rosgenmsg('/home/$USER/catkin_ws/src/matlab_msgs/')`. The custom message types will be registered and the build process started.
+7) Follow the instructions provided in the MATLAB Command Window. If `savepath` gives an error, you may need to `chown $USER` the `pathdef.m` file mentioned.
 
 Within a 2nd Terminal:
 
-5) `cd` to the directory containing your .bag file. Usually this will be named '1.bag'.
-6) Run `rosbag play 1.bag`. The console will begin running through the ROSbag history.
+8) `cd` to the directory containing your .bag file. Usually this will be named '1.bag'.
+9) Run `rosbag play 1.bag`. The console will begin running through the ROSbag history.
 
 Finally, within MATLAB:
 
-7) Run `import_rosbag.m`. The script will find the revevant topics and output the corresponding MATLAB files.
+10) Run `import_rosbag.m`. The script will find the revevant topics and output the corresponding MATLAB files.
 
 ## 2) Python Script Alterations
 
