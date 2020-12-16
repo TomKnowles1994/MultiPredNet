@@ -112,6 +112,8 @@ Within Terminal or a suitable IDE:
 
 Within MATLAB:
 
-3) Run `matlab_multiprednet_figures_showcase.m`. Figures will be generated showing the Representational Simularity Matrices. An example of the final output is shown below:
+3) Run `matlab_multiprednet_figures_showcase.m`. Figures will be generated showing the Representational Similarity Matrices. An example of the final output is shown below:
 
 <img src="https://github.com/TomKnowles1994/MultiPredNet/blob/main/examples/readme_RSM_example.png" width="600">
+
+A successful run will have a score of 0.4-0.6, but anything above 0.1 is considered significant.
