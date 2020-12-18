@@ -27,11 +27,43 @@ NB: If your data has already been unpacked from its ROSbag, then ROS nor the ROS
 - Visit https://www.mathworks.com/ to download MATLAB 2020b. Install it.
 - MATLAB will prompt for a license; enter your organisation credentials to obtain the license. MATLAB will find and activate automatically.
 
+## Recommended Folder Structure
+
+There are many output files required for this experiment to run successfully, and many different file paths required. From experience, it is very easy to accidentally overwrite output files without an appropriate folder structure set up ahead of time. It is recommended to have a seperate folder for this experiment (likely the one this repository has been downloaded or cloned to), with two subfolder trees; one to store data downloaded from the link about, and one for storing script outputs.
+
+Before any data is extracted or downloaded, the folder structure should look something like:
+```                   
+MultiPredNet  
+└───datasets
+│   └───trainingset
+│   └───testset1
+│   └───testset2
+│   └───testset3
+│   └───testset4
+└───representations
+    └───testset1
+            └───both
+            └───visual
+            └───tactile
+    └───testset2
+            └───both
+            └───visual
+            └───tactile
+    └───testset3
+            └───both
+            └───visual
+            └───tactile
+    └───testset4
+            └───both
+            └───visual
+            └───tactile
+```
+
 ## Configuration Steps:
 
 After cloning this repository:
 
-1) Extract data from ROSbag (if required)
+1) Extract data from ROSbag OR download sample .mat data from the link provided
 2) Alter the three Python scripts by substituting the placeholder paths with your own
 3) Run the scripts
 
@@ -86,8 +118,10 @@ Within `python_multiprednet_gen_reps_showcase.py`:
 
 Within `matlab_multiprednet_figures_showcase.m`:
 
-- [Line 20 and 22]: pass test data location to the `load()` functions
-- [Lines 33, 35, 48, 50, 59 and 61]: pass output representations (from Inference Script's `save_path`) location to the `load()` functions
+The figure generation will display two test set results simultaneously
+
+- [Line 8,9, 10, 11; ]: pass test data location to the `load()` functions
+- [Lines 15, 16, 17; 29, 30, 31; 40, 41, 42 and 61]: pass output representations (from Inference Script's `save_path`) location to the `load()` functions
 
 ### Finally
 
@@ -103,12 +137,18 @@ Within Terminal or a suitable IDE:
 
    Wait until console output stops
 
-
 2) Run `python_multiprednet_gen_reps_showcase.py`. The inference process will begin. Console output should look as follows:
 
 <img src="https://github.com/TomKnowles1994/MultiPredNet/blob/main/examples/readme_inference_example.gif" width="600">
 
-   Wait until console output stops
+   Wait until console output stops. Repeat this for each test set and sensor dropout you wish to output representations for.
+   NOTE: you will need to run this a total of six times to generate the figure as shown below. This entails:
+   
+   - Running `python_multiprednet_gen_reps_showcase.py` on your 1st testset, with avail_modality (line 19) set to 'both'
+   - Doing the same, but with avail_modality (line 19) set to 'visual'
+   - Once more, but with avail_modality (line 19) set to 'tactile'
+   
+   - Then, repeat this for your 2nd testset
 
 Within MATLAB:
 
@@ -116,4 +156,4 @@ Within MATLAB:
 
 <img src="https://github.com/TomKnowles1994/MultiPredNet/blob/main/examples/readme_RSM_example.png" width="600">
 
-A successful run will have a score of 0.4-0.6, but anything above 0.1 is considered significant.
+A successful run on NRP data will have a score of 0.2-0.3, but anything above 0.1 is considered significant.
