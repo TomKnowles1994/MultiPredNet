@@ -16,7 +16,7 @@ A multimodal predictive coding implementation for place recognition. Suitable da
 
 **OR**
 
-- Alternatively, sample ROSbag and MATLAB files are available at **dataset_link_awaiting_curation**
+- Alternatively, sample ROSbag and MATLAB files are available at http://doi.org/10.25493/TSTK-AKK
 
 NB: If your data has already been unpacked from its ROSbag, then ROS nor the ROSbag is required. Use the generated .mat files instead
 
