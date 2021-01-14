@@ -1,6 +1,43 @@
-# MultiPredNet
+# MultiPredNet Experiment
 
-A multimodal predictive coding implementation for place recognition. Suitable datasets can be gathered from the Neurorobotics Platform and used to train the predictive coding network to generate suitable representations of the robot's environment. This can then be used in other tasks, such as navigation. Quality of the learned representations is determined its Representational Similarity Matrix; a good learned representation is taken to be one that changes within itself in a similar way to other unambiguous representations, such as pose space (x, y, theta). This repository also contains scripts for generating and comparing these matrices.
+## Overview
+
+### The Algorithm
+
+MultiPredNet is a Predictive Coding-inspired algorithm designed to work with multimodal data, in this case visual and tactile. The network continually attempts to predict the incoming sensory information by passing predictions to downstream layers, with the resulting error from these predictions used to adjust weights. Each predictive layer has its own representation space that is continually refined from these error updates, with most of the network devoted to predicting either visual or tactile data. The topmost layer attempts to predict the incoming activity of both visual *and* tactile streams, and thus builds a top-level multimodal representation. This builds upon \[1\] and \[2\]. All further references to MultiPredNet's representation space refers to this top-level, multimodal representation, not those of the lower layers.
+
+### The Robot
+
+To gather suitable visual and tactile data, the rat-inspired WhiskEye robot is set up to explore an arena filled with simple 3D shapes, such as coloured cylinders and cubes. Equipped with both camera 'eyes' and arrays of motile whiskers sensitive to deflection, it can capture both visual and tactile sensory information. The robot uses a tactile saliency map to explore novel and interesting areas, and a central pattern generator combined with local, per-whisker controllers provides bursts of whisking to gather tactile impressions. WhiskEye's cameras take a visual snapshot of the scene at the moment of maximal whisker protraction, synchronising the tactile and visual inputs. This ensures that both visual and tactile inputs are taken from the same timestep, to better allow for learning of multi-sensory representations. Further details can be found in \[3\].
+
+### The Rationale
+
+For this experiment, the representation space learned by MultiPredNet is intended to be useful for place recognition; that is, samples from representation space should vary according to changes in the robot's sensory input that indicate a change in location or orientation. For example, two representation samples should be significantly seperated from each other if the view of the robot flips 180 degrees, and yet further still if it is also on the other side of the room.
+
+It is worth noting that MultiPredNet has no understanding of the wider context of the experiment. It is a disembodied algorithm with no knowledge of the WhiskEye robot, the methods of data collection, the objects placed in the arena, or the pose of the robot at any given time; all it receives are snapshots of visual and tactile data. This requires it to build a suitable representation of its environment from data alone, learning to predict incoming visuotactile impressions from the robot during its exploration will organically build an unambiguous representation of the environment.
+
+### The Results
+
+The final output of the experiment is a Representational Dissimilarity Matrix (RDM). An RDM is created by measuring the distance between each sample from every other within its native space. These distance metrics are formed into a matrix, visualised as a colourmap. This provides an illustration of the dissimilarity between all samples within a given representation space; regardless of dimensions, modality or application-specific parameters, the distances between each sample to every other provides a 2D matrix of positive scalar values. This enables representations from vastly different spaces and experiments to be compared to one-another. Further information on the Representational Similarity Analysis approach can be found in \[4\].
+
+### The Analysis
+
+To judge whether this learned RDM is useful, a seperate RDM is constructed. This takes data from the robot's pose, also measured from the simulator, and carries out the same process, measuring the distance between samples in Pose Space. Pose Space, given by the comparatively minimal representation of (x, y, theta), is *a priori* known to be a good, unambiguous representation for place recognition; if a robot's coordinates in Pose Space are known, then its (x, y) location in the arena and (theta) orientation are also known. This therefore gives a quantifiable quality standard; if the RSM of a given representation correlates well with Pose Space's RDM, then it is useful for place recognition to the degree to which it correlates.
+
+Comparing this entails analysing the covariance of the two RDMs using Spearman's Rank Correlation coefficient. A high coefficient shows that the RDMs, and therefore the representation spaces, co-vary to a high degree. As seen in the example results below, it can be inferred that MultiPredNet, without any notion of pose space in its learning algorithm or information about the world aside for its sensors, has nonetheless learned a representation that varies in a similar way to Pose Space, and therefore is useful for place recognition.
+
+### References
+
+\[1\]  S. Dora, C. Pennartz, S. Bohte, A  Deep  Predictive  Coding  Network  for  Inferring  Hierarchical  Causes  Underlying  Sensory  Inputs,  International  Conference  on  Artificial  NeuralNetworks,  Springer,  Cham,  2018. 
+Available: https://pure.ulster.ac.uk/ws/files/77756390/ICANN_submission.pdf
+
+\[2\] O.  Struckmeier,  K.  Tiwari,  S.  Dora,  M.  J.  Pearson,  S.  M.  Bohte,  C.  M.  Pennartz,  and  V.Kyrki, Mupnet:  Multi-modal  predictive  coding  network  for  place  recognition  by  unsupervised learning of joint visuo-tactile latent representations, 2019. arXiv:1909.07201
+
+\[3\] O. Struckmeier, K. Tiwari, M. Pearson, and V. Kyrki, “Vita-slam: A bio-inspired visuo-tactileslam for navigation while interacting with aliased environments,” Jun. 2019.
+
+\[4\] N Kriegeskorte, M Mur, and P. Bandettini. Front. Syst. Neurosci., 24 November 2008 | https://doi.org/10.3389/neuro.06.004.2008
+
+# Replication
 
 ## Dependencies:
 
@@ -18,7 +55,7 @@ A multimodal predictive coding implementation for place recognition. Suitable da
 
 - Alternatively, sample ROSbag and MATLAB files are available at http://doi.org/10.25493/TSTK-AKK
 
-NB: If your data has already been unpacked from its ROSbag, then ROS nor the ROSbag is required. Use the generated .mat files instead
+NB: If your data has already been unpacked from its ROSbag, then neither ROS nor the ROSbag is required. Use the generated .mat files instead.
 
 ## Installing Dependencies:
 
@@ -129,7 +166,7 @@ The figure generation will display two test set results simultaneously
 
 - Save your changes to these files
 
-### 3) Running the Experiment
+## 3) Running the Experiment
 
 Within Terminal or a suitable IDE:
 
@@ -158,4 +195,4 @@ Within MATLAB:
 
 <img src="https://github.com/TomKnowles1994/MultiPredNet/blob/main/examples/readme_RSM_example.png" width="800">
 
-A successful run on NRP data will have a score of 0.2-0.3, but anything above 0.1 is considered significant.
+A successful run on NRP data will have a score of 0.2-0.3, but anything above 0.15 is considered significant.
