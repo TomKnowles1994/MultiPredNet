@@ -59,6 +59,8 @@ MultiPredNet
             └───tactile
 ```
 
+The easiest way to create this structure is to run `build_multiprednet_folder_structure.py` in the directory you wish to store your MultiPredNet results in. This will create all the necessary folders, and can be used to regenerate the missing parts of an existing folder structure.
+
 ## Configuration Steps:
 
 After cloning this repository:
