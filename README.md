@@ -195,4 +195,4 @@ Within MATLAB:
 
 <img src="https://github.com/TomKnowles1994/MultiPredNet/blob/main/examples/readme_RSM_example.png" width="800">
 
-A successful run on NRP data will have a score of 0.2-0.3, but anything above 0.15 is considered significant.
+A successful run on sample NRP data will have a score of 0.2-0.3, depending on the Test Set used. If manually collecting NRP data, results may be out of this range due to differences in experiment setup.
