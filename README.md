@@ -47,12 +47,12 @@ Available: https://pure.ulster.ac.uk/ws/files/77756390/ICANN_submission.pdf
 - MATLAB Add-ons installed: Robotic Systems Toolbox and Signal Processing Toolbox
 - ROS (any version)
 
-## Also required:
+## Data:
 
-- A ROSbag file, generated from the NeuroRobotics Platform Whiskeye Experiment.
+Suitable data sources can be any of the following:-
 
-**OR**
-
+- A ROSbag file, generated from the NeuroRobotics Platform Whiskeye Experiment. Instructions for extraction to follow.
+- The TAROS 2021 datasets, available at: https://we.tl/t-wPpFnK2TS6
 - Alternatively, sample ROSbag and MATLAB files are available at http://doi.org/10.25493/TSTK-AKK
 
 NB: If your data has already been unpacked from its ROSbag, then neither ROS nor the ROSbag is required. Use the generated .mat files instead.
