@@ -1,13 +1,7 @@
-# TAROS 2021 Materials
-
-### Purpose
+TAROS 2021 Materials
 
 This folder contains the original (colour) versions of all figures used in "WhiskEye: A biomimetic model of multisensoryspatial memory based on sensory reconstruction" by Thomas C. Knowles, Rachael Stentiford and Martin .J Pearson (Springer Lecture Notes in the Artificial Intelligence).
 
-### Latest Release
-
 For the full code release, including these figures and a link to data sources, please see: https://github.com/TomKnowles1994/MultiPredNet/releases/tag/TAROS_2021_1.0
-
-### Further Details
 
 Further details are listed in the main README: https://github.com/TomKnowles1994/MultiPredNet/blob/main/README.md
